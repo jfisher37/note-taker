@@ -2,6 +2,7 @@ const fs = require('fs');
 const db = require('./db/db.json');
 const express = require ('express');
 const path = require ('path');
+const uuid = require('./helpers/uuid');
 
 const app = express(); 
 
@@ -31,6 +32,7 @@ app.post('/api/notes', (req, res) => {
       const newNote = {
         title,
         text,
+        noteId: uuid(),
       };
   
       
@@ -48,6 +50,25 @@ app.post('/api/notes', (req, res) => {
           : console.log(
               `New Note Taken`
             )
+      );
+    }) 
+    res.sendFile(path.join(__dirname, '/db/db.json'));
+});
+
+app.delete('/api/notes', (req, res) => {
+      fs.readFile('./db/db.json', `utf8`, (err, data) => {
+      const parsedNotes = JSON.parse(data);
+      for (let i = 0; i < parsedNotes.length; i++){
+          if (req.noteId === parsedNotes[i].noteId){
+              parsedNotes.splice(i, 1);
+          }
+      }
+  
+     
+  
+      // Write the string to a file
+      fs.writeFile('./db/db.json', JSON.stringify(parsedNotes), (err) =>
+         console.error(err)
       );
     }) 
     res.sendFile(path.join(__dirname, '/db/db.json'));
