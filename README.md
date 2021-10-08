@@ -17,7 +17,7 @@ You can install the project at this link: https://github.com/jfisher37/note-take
 
 
 ## Usage
-To use the project, go to the note taker page, enter a title and a note for your note, and hit the save button. 
+To use the project, go to the note taker page, by hitting the "get started" button, enter a title and a note for your note, and hit the save button. 
 
 You can access the deployed project here: 
 
