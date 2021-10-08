@@ -21,11 +21,37 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, './public/index.htm
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
 
 // set up API routes
-app.get('/api/notes', (req, res) => {fs.readFile('./db/db.json', (err, data) =>
-res.send(data))}); 
+app.get('/api/notes', (req, res) => res.sendFile(path.join(__dirname, '/db/db.json')))
 
 
-app.post('/api/notes', (req, res) =>)
+app.post('/api/notes', (req, res) => {
+  
+    const { title, text } = req.body;
+  
+      const newNote = {
+        title,
+        text,
+      };
+  
+      
+  
+      fs.readFile('./db/db.json', `utf8`, (err, data) => {
+      const parsedNotes = JSON.parse(data);
+      parsedNotes.push(newNote);
+  
+     
+  
+      // Write the string to a file
+      fs.writeFile('./db/db.json', JSON.stringify(parsedNotes), (err) =>
+        err
+          ? console.error(err)
+          : console.log(
+              `New Note Taken`
+            )
+      );
+    }) 
+    res.sendFile(path.join(__dirname, '/db/db.json'));
+});
 
 // set up listeners
 app.listen(PORT, () =>
