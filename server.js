@@ -55,11 +55,15 @@ app.post('/api/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/db/db.json'));
 });
 
-app.delete('/api/notes', (req, res) => {
+app.delete('/api/notes/:id', (req, res) => {
       fs.readFile('./db/db.json', `utf8`, (err, data) => {
       const parsedNotes = JSON.parse(data);
+
+      console.log("API DELETE ROUTE", req.params.id)
+        console.log("noteID", req.noteId)
+      console.log("PARSED NOTES DELETE ROUTE", parsedNotes)
       for (let i = 0; i < parsedNotes.length; i++){
-          if (req.noteId === parsedNotes[i].noteId){
+          if (req.params.id === parsedNotes[i].id){
               parsedNotes.splice(i, 1);
           }
       }
